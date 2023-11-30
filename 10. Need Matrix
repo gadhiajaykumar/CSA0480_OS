@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+#define MAX_PROCESSES 10
+#define MAX_RESOURCES 10
+
+int main() {
+    int n_processes, n_resources, i, j;
+
+    // Input the number of processes and resources
+    printf("Enter the number of processes: ");
+    scanf("%d", &n_processes);
+
+    printf("Enter the number of resources: ");
+    scanf("%d", &n_resources);
+
+    // Input the maximum claim matrix
+    int max_claim[MAX_PROCESSES][MAX_RESOURCES];
+    printf("Enter the maximum claim matrix:\n");
+    for (i = 0; i < n_processes; i++) {
+        printf("For process %d: ", i + 1);
+        for (j = 0; j < n_resources; j++) {
+            scanf("%d", &max_claim[i][j]);
+        }
+    }
+
+    // Input the allocation matrix
+    int allocation[MAX_PROCESSES][MAX_RESOURCES];
+    printf("Enter the allocation matrix:\n");
+    for (i = 0; i < n_processes; i++) {
+        printf("For process %d: ", i + 1);
+        for (j = 0; j < n_resources; j++) {
+            scanf("%d", &allocation[i][j]);
+        }
+    }
+
+    // Calculate and print the need matrix
+    int need[MAX_PROCESSES][MAX_RESOURCES];
+    printf("\nNeed Matrix:\n");
+    for (i = 0; i < n_processes; i++) {
+        for (j = 0; j < n_resources; j++) {
+            need[i][j] = max_claim[i][j] - allocation[i][j];
+            printf("%d ", need[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
