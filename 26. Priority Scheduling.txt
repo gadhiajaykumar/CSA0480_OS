@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-struct Process {
+struct Process 
+{
     int id;
     int priority;
     int burst_time;
