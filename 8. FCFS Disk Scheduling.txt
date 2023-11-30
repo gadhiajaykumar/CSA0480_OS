@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, i, initial_head, total_head_movement = 0;
+
+    printf("Enter the number of disk requests: ");
+    scanf("%d", &n);
+
+    if (n <= 0) {
+        printf("Invalid number of requests. Exiting...\n");
+        return 1;
+    }
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &initial_head);
+
+    int requests[n];
+
+    printf("Enter the disk request positions:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &requests[i]);
+    }
+
+    printf("\nFCFS Disk Scheduling:\n");
+
+    // Print the sequence of requests
+    printf("Sequence: %d", initial_head);
+    for (i = 0; i < n; i++) {
+        printf(" -> %d", requests[i]);
+        total_head_movement += abs(initial_head - requests[i]);
+        initial_head = requests[i];
+    }
+
+    // Calculate and print the average head movement
+    float avg_head_movement = (float)total_head_movement / n;
+    printf("\nAverage Head Movement: %.2f\n", avg_head_movement);
+
+    return 0;
+}
