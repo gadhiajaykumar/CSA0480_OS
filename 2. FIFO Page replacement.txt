@@ -1,33 +1,64 @@
 #include <stdio.h>
-#include <stdlib.h>
-int main()
+int main() 
 {
-	FILE *fptr1, *fptr2
-	char filename[100], c;
-	printf("Enter the filename to open for reading \n");
-	scanf("%s", filename);
-	fptr1 = fopen(filename, "r");
-	if (fptr1 == NULL)
+    int n; 
+    printf("Enter the number of pages: ");
+    scanf("%d", &n);
+
+    int pages[n];
+    printf("Enter the page numbers: ");
+    for (int i = 0; i < n; i++) 
 	{
-		printf("Cannot open file %s \n", filename);
-		exit(0);
-	}
-	printf("Enter the filename to open for writing \n");
-	scanf("%s", filename);
-	fptr2 = fopen(filename, "w");
-	if (fptr2 == NULL)
+        scanf("%d", &pages[i]);
+    }
+
+    int frameSize; 
+    printf("Enter the number of frames: ");
+    scanf("%d", &frameSize);
+
+    int frames[frameSize];
+    for (int i = 0; i < frameSize; i++) 
 	{
-		printf("Cannot open file %s \n", filename);
-		exit(0);
-	}
-	c = fgetc(fptr1);
-	while (c != EOF)
+        frames[i] = -1; 
+    }
+
+    int frameIndex = 0;
+    int pageFaults = 0;
+
+    for (int i = 0; i < n; i++) 
 	{
-		fputc(c, fptr2);
-		c = fgetc(fptr1);
-}
-	printf("\nContents copied to %s", filename);
-	fclose(fptr1);
-	fclose(fptr2);
-	return 0;
+        int page = pages[i];
+        int pageFound = 0;
+        for (int j = 0; j < frameSize; j++) 
+		{
+            if (frames[j] == page) 
+			{
+                pageFound = 1;
+                break;
+            }
+        }
+        if (!pageFound) 
+		{
+            frames[frameIndex] = page;
+            frameIndex = (frameIndex + 1) % frameSize;
+            pageFaults++;
+        }
+        printf("Frames: ");
+        for (int j = 0; j < frameSize; j++) 
+		{
+            if (frames[j] == -1) 
+			{
+                printf("- ");
+            } 
+			else 
+			{
+                printf("%d ", frames[j]);
+            }
+        }
+        printf("\n");
+    }
+
+    printf("Number of Page Faults: %d\n", pageFaults);
+
+    return 0;
 }
